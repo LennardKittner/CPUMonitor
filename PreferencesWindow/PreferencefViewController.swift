@@ -34,9 +34,9 @@ class PreferencefViewController: NSTabViewController {
             gitHub.attributedTitle = title
         }
         if atLogin != nil {
-            atLogin.state = NSControl.StateValue(rawValue: (appDelegate?.startAtLogin)! ? 1 : 0)
-            memdetail.state = NSControl.StateValue(rawValue: (appDelegate?.detailedMemory)! ? 1 : 0)
-            refresh.stringValue = String(appDelegate?.refreshTime ?? 0.5)
+            atLogin.state = NSControl.StateValue(rawValue: (appDelegate?.state.startAtLogin)! ? 1 : 0)
+            memdetail.state = NSControl.StateValue(rawValue: (appDelegate?.state.detailedMemory)! ? 1 : 0)
+            refresh.stringValue = String(appDelegate?.state.refreshTime ?? 0.5)
         }
         //update Title
         self.parent?.view.window?.title = self.title!
@@ -44,29 +44,29 @@ class PreferencefViewController: NSTabViewController {
     
     func writeConf() {
         let conf_txt = """
-        memdetail:\((appDelegate?.detailedMemory)! ? "yes" : "no")
-        AtLogin:\((appDelegate?.startAtLogin)! ? "yes" : "no")
-        Refresh:\(String((appDelegate?.refreshTime)!))
+        memdetail:\((appDelegate?.state.detailedMemory)! ? "yes" : "no")
+        AtLogin:\((appDelegate?.state.startAtLogin)! ? "yes" : "no")
+        Refresh:\(String((appDelegate?.state.refreshTime)!))
         """
         try! conf_txt.write(to: (appDelegate?.conf_file)!, atomically: true, encoding: String.Encoding.utf8)
     }
     
     @IBAction func autoStart(_ sender: NSButton) {
-        appDelegate?.startAtLogin = !((appDelegate?.startAtLogin)!)
+        appDelegate?.state.startAtLogin = !((appDelegate?.state.startAtLogin)!)
         appDelegate?.setStartAtLogin()
         writeConf()
     }
     
     @IBAction func memorydetail(_ sender: Any) {
-        appDelegate?.detailedMemory = !((appDelegate?.detailedMemory)!)
+        appDelegate?.state.detailedMemory = !((appDelegate?.state.detailedMemory)!)
         writeConf()
     }
     
     @IBAction func refreshChange(_ sender: NSTextField) {
         if sender.doubleValue > 0.0 {
-            appDelegate?.refreshTime = Double(sender.doubleValue)
+            appDelegate?.state.refreshTime = Double(sender.doubleValue)
             appDelegate?.timer?.invalidate()
-            appDelegate?.startTimer(wait: appDelegate?.refreshTime ?? 0.5)
+            appDelegate?.startTimer(wait: appDelegate?.state.refreshTime ?? 0.5)
             writeConf()
         }
     }

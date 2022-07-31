@@ -15,8 +15,8 @@
 		49205A6021320E6E00FDCC76 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49205A5D21320E6D00FDCC76 /* Preferences.storyboard */; };
 		49205A6121320E6E00FDCC76 /* PreferencefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49205A5E21320E6D00FDCC76 /* PreferencefViewController.swift */; };
 		49205A6221320E6E00FDCC76 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49205A5F21320E6D00FDCC76 /* PreferencesWindowController.swift */; };
-		DB8B6832289557A2005B7560 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B6831289557A2005B7560 /* SystemKit.framework */; };
-		DB8B6833289557A2005B7560 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B6831289557A2005B7560 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; };
+		DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,13 +30,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DB8B6834289557A2005B7560 /* Embed Frameworks */ = {
+		DB8B683828972B09005B7560 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DB8B6833289557A2005B7560 /* SystemKit.framework in Embed Frameworks */,
+				DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +59,7 @@
 		49205A5F21320E6D00FDCC76 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		DB8B682828948CEF005B7560 /* System.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		DB8B682928948CEF005B7560 /* System.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = System.c; sourceTree = "<group>"; };
-		DB8B6831289557A2005B7560 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemKit.framework; path = SystemKit/DerivedData/SystemKit/Build/Products/Debug/SystemKit.framework; sourceTree = "<group>"; };
+		DB8B683928972BBB005B7560 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB8B6832289557A2005B7560 /* SystemKit.framework in Frameworks */,
+				DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +138,7 @@
 		DB8B6830289557A2005B7560 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DB8B6831289557A2005B7560 /* SystemKit.framework */,
+				DB8B683928972BBB005B7560 /* SystemKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -154,7 +154,7 @@
 				492059DF212CAADB00FDCC76 /* Frameworks */,
 				492059E0212CAADB00FDCC76 /* Resources */,
 				4913A7E8213B62AE00A03E3B /* ShellScript */,
-				DB8B6834289557A2005B7560 /* Embed Frameworks */,
+				DB8B683828972B09005B7560 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

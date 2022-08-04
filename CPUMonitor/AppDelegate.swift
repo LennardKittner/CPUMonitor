@@ -14,9 +14,9 @@ struct State {
     let memory_max = System.physicalMemory()
     let defaultConfig =
                 """
-                Memdetail:no
-                AtLogin:no
-                Refresh:0.5
+                Memdetail: no
+                AtLogin: no
+                Refresh: 0.5
                 """
         .data(using: String.Encoding.utf8, allowLossyConversion: false)!
     var startAtLogin = false
@@ -38,6 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let conf_dir = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/")
     let conf_file = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/CPUMonitor.cfg")
     
+    //TODO make it more generic
     func readCfg() -> State {
         var state = State()
         
@@ -74,30 +75,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        readCfg()
+        state = readCfg()
         timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
         sys = System()
         loadImages()
-
-        // initializes the menu item
-        if let button = statusItem.button {
-            button.image = NSImage(named:NSImage.Name("0"))
-            statusItem.length = 60
-        }
         
+        statusItem.length = 60
         statusItem.menu = NSMenu()
         statusItem.menu?.delegate = self
-        refreshMenu()
-
+        initMenu(menu: statusItem.menu!)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-    }
-    
-    //is called when the menubar button is clicked
-    func menuNeedsUpdate(_ menu: NSMenu) {
-        refreshMenu()
     }
     
     @objc func setStartAtLogin() {
@@ -122,41 +112,44 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.button?.image = state.icons[index]
     }
     
-    func refreshMenu() {
-        let menu = statusItem.menu!
-        menu.removeAllItems()
+    func refreshMenu(menu: NSMenu) {
         let memoryUsage = System.memoryUsage()
-        let memoryd = memoryUsage.free + memoryUsage.inactive
-        let ram = NSMenuItem(title: "Memory: \(String(format: "%.2f", memoryd)) GB / \(state.memory_max) GB ", action: nil, keyEquivalent: "")
-        ram.toolTip = "general memory usage (free + inactive)"
-        ram.isEnabled = false
-        menu.addItem(ram)
+        let memoryUsageA  = [memoryUsage.free, memoryUsage.inactive, memoryUsage.compressed, memoryUsage.active, memoryUsage.wired]
+        (menu.item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsage.free + memoryUsage.inactive, val2: state.memory_max)
+        
         if state.detailedMemory {
-            let free = NSMenuItem(title: "Free: \(String(format: "%.2f", memoryUsage.free)) GB", action: nil, keyEquivalent: "")
-            free.isEnabled = false
-            free.toolTip = "free memory"
-            menu.addItem(free)
-            let inactive = NSMenuItem(title: "Inactive: \(String(format: "%.2f", memoryUsage.inactive)) GB", action: nil, keyEquivalent: "")
-            inactive.isEnabled = false
-            inactive.toolTip = "memory left by closed apps to speed up next launch"
-            menu.addItem(inactive)
-            let compressed = NSMenuItem(title: "Compressed: \(String(format: "%.2f", memoryUsage.compressed)) GB", action: nil, keyEquivalent: "")
-            compressed.isEnabled = false
-            compressed.toolTip = "compresed memory"
-            menu.addItem(compressed)
-            let active = NSMenuItem(title: "Active: \(String(format: "%.2f", memoryUsage.active)) GB", action: nil, keyEquivalent: "")
-            active.isEnabled = false
-            active.toolTip = "activly by apps used memory "
-            menu.addItem(active)
-            let wired = NSMenuItem(title: "Wired: \(String(format: "%.2f", memoryUsage.wired)) GB", action: nil, keyEquivalent: "")
-            wired.isEnabled = false
-            wired.toolTip = "system memory"
-            menu.addItem(wired)
+            for i in 1..<menu.items.count {
+                (menu.item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsageA[i])
+            }
         }
+    }
+    
+    func initMenu(menu: NSMenu) {
+        menu.removeAllItems()
+        menu.addItem(createSimpleMemItem())
+        
+        if state.detailedMemory {
+            createDetailedMemItems().map({menu.addItem($0)})
+        }
+    
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.showPreferences(_:)), keyEquivalent: ","))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+    }
+    
+    func createSimpleMemItem() -> NSMenuItem {
+        return SimpleMemItem(prefix: "Memory: ", middle: " GB / ", suffix: " GB", toolTip: "memory usage (free + inactive)")
+    }
+    
+    func createDetailedMemItems() -> [NSMenuItem] {
+        var items :[NSMenuItem] = []
+        items.append(SimpleMemItem(prefix: "Free: ", suffix: " GB", toolTip: "free memory"))
+        items.append(SimpleMemItem(prefix: "Inactive: ", suffix: " GB", toolTip: "memory used by closed apps to speed up next launch"))
+        items.append(SimpleMemItem(prefix: "Compressed: ", suffix: " GB", toolTip: "compresed memory"))
+        items.append(SimpleMemItem(prefix: "Active: ", suffix: " GB", toolTip: "activly used user memory "))
+        items.append(SimpleMemItem(prefix: "Wired: ", suffix: " GB", toolTip: "system memory"))
+        return items
     }
 
     @objc func showPreferences(_ sender: Any?) {
@@ -168,6 +161,5 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if (preferencesController != nil) {
             preferencesController!.showWindow(sender)
         }
-        
     }
 }

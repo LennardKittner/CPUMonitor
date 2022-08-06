@@ -15,6 +15,8 @@
 		49205A6021320E6E00FDCC76 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49205A5D21320E6D00FDCC76 /* Preferences.storyboard */; };
 		49205A6121320E6E00FDCC76 /* PreferencefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49205A5E21320E6D00FDCC76 /* PreferencefViewController.swift */; };
 		49205A6221320E6E00FDCC76 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49205A5F21320E6D00FDCC76 /* PreferencesWindowController.swift */; };
+		DB0BD9A2289DABD200475C43 /* ConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A1289DABD200475C43 /* ConfigHandler.swift */; };
+		DB0BD9A4289DABF700475C43 /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A3289DABF700475C43 /* ConfigData.swift */; };
 		DB5A17E82899CE0100519982 /* SimpleMemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A17E72899CE0100519982 /* SimpleMemItem.swift */; };
 		DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; };
 		DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -51,13 +53,15 @@
 		492059E9212CAADE00FDCC76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		492059EC212CAADE00FDCC76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		492059EE212CAADE00FDCC76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		492059EF212CAADE00FDCC76 /* CPUMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CPUMonitor.entitlements; sourceTree = "<group>"; };
 		492059F4212CAADE00FDCC76 /* CPUMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPUMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		492059F8212CAADE00FDCC76 /* CPUMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMonitorTests.swift; sourceTree = "<group>"; };
 		492059FA212CAADE00FDCC76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49205A5D21320E6D00FDCC76 /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		49205A5E21320E6D00FDCC76 /* PreferencefViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencefViewController.swift; sourceTree = "<group>"; };
 		49205A5F21320E6D00FDCC76 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		DB0BD9A1289DABD200475C43 /* ConfigHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigHandler.swift; sourceTree = "<group>"; };
+		DB0BD9A3289DABF700475C43 /* ConfigData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigData.swift; sourceTree = "<group>"; };
+		DB0BD9A5289E936F00475C43 /* CPUMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CPUMonitor.entitlements; sourceTree = "<group>"; };
 		DB5A17E72899CE0100519982 /* SimpleMemItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleMemItem.swift; sourceTree = "<group>"; };
 		DB8B682828948CEF005B7560 /* System.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		DB8B682928948CEF005B7560 /* System.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = System.c; sourceTree = "<group>"; };
@@ -112,9 +116,11 @@
 				492059E7212CAADB00FDCC76 /* ViewController.swift */,
 				492059E9212CAADE00FDCC76 /* Assets.xcassets */,
 				492059EB212CAADE00FDCC76 /* Main.storyboard */,
+				DB0BD9A5289E936F00475C43 /* CPUMonitor.entitlements */,
 				492059EE212CAADE00FDCC76 /* Info.plist */,
-				492059EF212CAADE00FDCC76 /* CPUMonitor.entitlements */,
 				DB5A17E72899CE0100519982 /* SimpleMemItem.swift */,
+				DB0BD9A1289DABD200475C43 /* ConfigHandler.swift */,
+				DB0BD9A3289DABF700475C43 /* ConfigData.swift */,
 			);
 			path = CPUMonitor;
 			sourceTree = "<group>";
@@ -269,6 +275,8 @@
 				49205A6121320E6E00FDCC76 /* PreferencefViewController.swift in Sources */,
 				492059E8212CAADB00FDCC76 /* ViewController.swift in Sources */,
 				49205A6221320E6E00FDCC76 /* PreferencesWindowController.swift in Sources */,
+				DB0BD9A2289DABD200475C43 /* ConfigHandler.swift in Sources */,
+				DB0BD9A4289DABF700475C43 /* ConfigData.swift in Sources */,
 				492059E6212CAADB00FDCC76 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

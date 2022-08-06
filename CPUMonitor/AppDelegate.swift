@@ -12,18 +12,9 @@ import SystemKit
 
 struct State {
     let memory_max = System.physicalMemory()
-    let defaultConfig =
-                """
-                Memdetail: no
-                AtLogin: no
-                Refresh: 0.5
-                """
-        .data(using: String.Encoding.utf8, allowLossyConversion: false)!
-    var startAtLogin = false
-    var detailedMemory = false
-    var refreshTime :Double = 0.5
     var oldUsage :Double = 0.0
     var icons = [NSImage]()
+    var config = ConfigData()
 }
 
 @NSApplicationMain
@@ -34,56 +25,67 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var timer :Timer?
     var sys :System?
     var preferencesController :NSWindowController?
+    //let conf_dir = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/")
+    //let conf_file = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/CPUMonitor/CPUMonitor.cfg")
+    
     // /Users/<name>/Library/Containers/com.Lennard.CPUMonitor/Data/Library/"Application Support"/CPUMonitor/
     let conf_dir = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/")
     let conf_file = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/CPUMonitor.cfg")
     
-    //TODO make it more generic
-    func readCfg() -> State {
-        var state = State()
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
+
+        sys = System()
+        loadImages()
         
-        try! FileManager.default.createDirectory(atPath: conf_dir.path, withIntermediateDirectories: true, attributes: nil)
         if !FileManager.default.fileExists(atPath: (conf_file.path)) {
-            FileManager.default.createFile(atPath: (conf_file.path), contents: state.defaultConfig, attributes: nil)
+            writeCfg(conf: state.config)
+        } else {
+            state.config = readCfg()
         }
-        else {
-            let conf = try!  String.init(contentsOf: conf_file).components(separatedBy: CharacterSet.newlines)
-            for c in conf {
-                if c.contains("Memdetail:") {
-                    if c.contains("yes") {
-                        state.detailedMemory = true
-                    }
-                }
-                else if c.contains("AtLogin:") {
-                    if c.contains("yes") {
-                        state.startAtLogin = true
-                        setStartAtLogin()
-                    }
-                }
-                else if c.contains("Refresh:") {
-                    state.refreshTime = Double(c.components(separatedBy: ":")[1]) ?? 0.5
-                }
-            }
+        
+        statusItem.length = 60
+        statusItem.menu = NSMenu()
+        statusItem.menu?.delegate = self
+        initMenu(menu: statusItem.menu!)
+    }
+        
+    func menuWillOpen(_ menu: NSMenu) {
+        refreshMenu(menu: menu)
+    }
+    
+    func readCfg() -> ConfigData {
+        let conf = ConfigData()
+        if let content = try? String.init(contentsOf: conf_file) {
+            ConfigHandler.parseMapToObj(keyValue: ConfigHandler.parseStringToMap(content: content), target: conf)
         }
-        return state
+        return conf
+    }
+    
+    func writeCfg(conf :ConfigData) {
+        let config = ConfigHandler.parseMapToString(keyValue: ConfigHandler.parseObjToMap(content: conf))
+        if !FileManager.default.fileExists(atPath: (conf_file.path)) {
+            try! FileManager.default.createDirectory(atPath: conf_dir.path, withIntermediateDirectories: true, attributes: nil)
+            FileManager.default.createFile(atPath: (conf_file.path), contents: config.data(using: String.Encoding.utf8, allowLossyConversion: false)!, attributes: nil)
+            return
+        }
+        try! config.write(to: conf_file, atomically: true, encoding: String.Encoding.utf8)
+    }
+    
+    func applyCfg() {
+        initMenu(menu: statusItem.menu!)
+        if state.config.startAtLogin {
+            setStartAtLogin()
+        }
+        if timer!.timeInterval != state.config.refreshTime {
+            timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
+        }
     }
     
     func loadImages() {
         for i in stride(from: 0, to: 101, by: 2) {
             state.icons.append(NSImage(named: NSImage.Name(String(i)))!)
         }
-    }
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        state = readCfg()
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
-        sys = System()
-        loadImages()
-        
-        statusItem.length = 60
-        statusItem.menu = NSMenu()
-        statusItem.menu?.delegate = self
-        initMenu(menu: statusItem.menu!)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -116,11 +118,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let memoryUsage = System.memoryUsage()
         let memoryUsageA  = [memoryUsage.free, memoryUsage.inactive, memoryUsage.compressed, memoryUsage.active, memoryUsage.wired]
         (menu.item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsage.free + memoryUsage.inactive, val2: state.memory_max)
-        
-        if state.detailedMemory {
-            for i in 1..<menu.items.count {
-                (menu.item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsageA[i])
-            }
+        for i in 1..<menu.items.count-2 {
+            (menu.item(at: i) as? SimpleMemItem)?.update(val1: memoryUsageA[i-1])
         }
     }
     
@@ -128,8 +127,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.removeAllItems()
         menu.addItem(createSimpleMemItem())
         
-        if state.detailedMemory {
-            createDetailedMemItems().map({menu.addItem($0)})
+        if state.config.detailedMemory {
+            createDetailedMemItems().forEach(({menu.addItem($0)}))
         }
     
         menu.addItem(NSMenuItem.separator())

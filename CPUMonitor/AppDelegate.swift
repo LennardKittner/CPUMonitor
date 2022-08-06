@@ -11,7 +11,6 @@ import Cocoa
 import SystemKit
 
 //TODO move Confighandling
-//TODO fix metal warning
 //TODO add autostart
 //TODO make universall
 //TODO change cfg path

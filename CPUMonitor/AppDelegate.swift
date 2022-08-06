@@ -10,6 +10,12 @@ import Cocoa
 //import LaunchAtLogin
 import SystemKit
 
+//TODO move Confighandling
+//TODO fix metal warning
+//TODO add autostart
+//TODO make universall
+//TODO change cfg path
+
 struct State {
     let memory_max = System.physicalMemory()
     var oldUsage :Double = 0.0
@@ -18,12 +24,13 @@ struct State {
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
     var state = State()
     var timer :Timer?
     var sys :System?
+    var menuDelegate :NSMenuDelegate?
     var preferencesController :NSWindowController?
     //let conf_dir = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/")
     //let conf_file = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/CPUMonitor/CPUMonitor.cfg")
@@ -46,12 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         statusItem.length = 60
         statusItem.menu = NSMenu()
-        statusItem.menu?.delegate = self
+        menuDelegate = OnOpenMenuDelegate(onOpen: refreshMenu)
+        statusItem.menu?.delegate = menuDelegate
         initMenu(menu: statusItem.menu!)
-    }
-        
-    func menuWillOpen(_ menu: NSMenu) {
-        refreshMenu(menu: menu)
     }
     
     func readCfg() -> ConfigData {
@@ -78,7 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             setStartAtLogin()
         }
         if timer!.timeInterval != state.config.refreshTime {
-            timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
+            startTimer(wait: state.config.refreshTime)
         }
     }
     

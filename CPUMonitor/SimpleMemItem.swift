@@ -29,7 +29,10 @@ class SimpleMemItem :NSMenuItem {
     }
     
     required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.prefix = ""
+        self.middle = ""
+        self.suffix = ""
+        super.init(coder: coder)
     }
     
     func update(val1: Double, val2: Double) {

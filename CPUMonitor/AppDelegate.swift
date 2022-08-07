@@ -10,16 +10,14 @@ import Cocoa
 //import LaunchAtLogin
 import SystemKit
 
-//TODO move Confighandling
+//TODO move Menu
 //TODO add autostart
 //TODO make universall
-//TODO change cfg path
 
 struct State {
     let memory_max = System.physicalMemory()
     var oldUsage :Double = 0.0
     var icons = [NSImage]()
-    var config = ConfigData()
 }
 
 @NSApplicationMain
@@ -31,58 +29,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var sys :System?
     var menuDelegate :NSMenuDelegate?
     var preferencesController :NSWindowController?
-    //let conf_dir = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/")
-    //let conf_file = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/CPUMonitor/CPUMonitor.cfg")
-    
-    // /Users/<name>/Library/Containers/com.Lennard.CPUMonitor/Data/Library/"Application Support"/CPUMonitor/
-    let conf_dir = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/")
-    let conf_file = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/CPUMonitor.cfg")
-    
+    var configHandler :ConfigHandler?
+  
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
-
         sys = System()
         loadImages()
-        
-        if !FileManager.default.fileExists(atPath: (conf_file.path)) {
-            writeCfg(conf: state.config)
-        } else {
-            state.config = readCfg()
-        }
         
         statusItem.length = 60
         statusItem.menu = NSMenu()
         menuDelegate = OnOpenMenuDelegate(onOpen: refreshMenu)
         statusItem.menu?.delegate = menuDelegate
-        initMenu(menu: statusItem.menu!)
-    }
-    
-    func readCfg() -> ConfigData {
-        let conf = ConfigData()
-        if let content = try? String.init(contentsOf: conf_file) {
-            ConfigHandler.parseMapToObj(keyValue: ConfigHandler.parseStringToMap(content: content), target: conf)
-        }
-        return conf
-    }
-    
-    func writeCfg(conf :ConfigData) {
-        let config = ConfigHandler.parseMapToString(keyValue: ConfigHandler.parseObjToMap(content: conf))
-        if !FileManager.default.fileExists(atPath: (conf_file.path)) {
-            try! FileManager.default.createDirectory(atPath: conf_dir.path, withIntermediateDirectories: true, attributes: nil)
-            FileManager.default.createFile(atPath: (conf_file.path), contents: config.data(using: String.Encoding.utf8, allowLossyConversion: false)!, attributes: nil)
-            return
-        }
-        try! config.write(to: conf_file, atomically: true, encoding: String.Encoding.utf8)
-    }
-    
-    func applyCfg() {
-        initMenu(menu: statusItem.menu!)
-        if state.config.startAtLogin {
-            setStartAtLogin()
-        }
-        if timer!.timeInterval != state.config.refreshTime {
-            startTimer(wait: state.config.refreshTime)
-        }
+        configHandler = ConfigHandler(onChange: applyCfg)
     }
     
     func loadImages() {
@@ -92,14 +50,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        
+    }
+    
+    func applyCfg(conf :ConfigData) {
+        configHandler?.writeCfg()
+        initMenu(menu: statusItem.menu!, conf: conf)
+        if conf.startAtLogin {
+            setStartAtLogin()
+        }
+        if timer!.timeInterval != conf.refreshTime {
+            startTimer(wait: conf.refreshTime)
+        }
     }
     
     @objc func setStartAtLogin() {
         //LaunchAtLogin.isEnabled = startAtLogin
     }
     
-    @objc func startTimer(wait: Double){
+    func startTimer(wait: Double){
         timer = Timer.scheduledTimer(timeInterval: wait, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
     }
 
@@ -126,11 +95,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func initMenu(menu: NSMenu) {
+    func initMenu(menu: NSMenu, conf: ConfigData) {
         menu.removeAllItems()
         menu.addItem(createSimpleMemItem())
         
-        if state.config.detailedMemory {
+        if conf.detailedMemory {
             createDetailedMemItems().forEach(({menu.addItem($0)}))
         }
     

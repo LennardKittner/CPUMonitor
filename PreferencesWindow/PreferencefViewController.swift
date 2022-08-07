@@ -15,11 +15,11 @@ class PreferencefViewController: NSTabViewController {
     @IBOutlet weak var memdetail: NSButton!
     @IBOutlet weak var refresh: NSTextField!
     
-    var appDelegate :AppDelegate?
+    var configHandler :ConfigHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate = (NSApplication.shared.delegate as! AppDelegate)
+        configHandler = (NSApplication.shared.delegate as! AppDelegate).configHandler
         self.preferredContentSize = NSMakeSize(self.view.frame.size.width, self.view.frame.size.height)
     }
     
@@ -33,33 +33,30 @@ class PreferencefViewController: NSTabViewController {
             gitHub.attributedTitle = title
         }
         if atLogin != nil {
-            atLogin.state = NSControl.StateValue(rawValue: (appDelegate?.state.config.startAtLogin)! ? 1 : 0)
-            memdetail.state = NSControl.StateValue(rawValue: (appDelegate?.state.config.detailedMemory)! ? 1 : 0)
-            refresh.stringValue = String(appDelegate?.state.config.refreshTime ?? 0.5)
+            atLogin.state = NSControl.StateValue(rawValue: configHandler.conf.startAtLogin ? 1 : 0)
+            memdetail.state = NSControl.StateValue(rawValue: configHandler.conf.detailedMemory ? 1 : 0)
+            refresh.stringValue = String(configHandler.conf.refreshTime)
         }
         self.parent?.view.window?.title = self.title!
     }
     
     @IBAction func autoStart(_ sender: NSButton) {
-        appDelegate?.state.config.startAtLogin = !(appDelegate?.state.config.startAtLogin)!
-        appDelegate?.setStartAtLogin()
-        appDelegate?.writeCfg(conf: (appDelegate?.state.config)!)
-        appDelegate?.applyCfg()
+        let newConf = (configHandler.conf.copy() as! ConfigData)
+        newConf.startAtLogin.toggle()
+        configHandler.conf = newConf
     }
     
     @IBAction func memorydetail(_ sender: Any) {
-        appDelegate?.state.config.detailedMemory = !((appDelegate?.state.config.detailedMemory)!)
-        appDelegate?.writeCfg(conf: (appDelegate?.state.config)!)
-        appDelegate?.applyCfg()
+        let newConf = (configHandler.conf.copy() as! ConfigData)
+        newConf.detailedMemory.toggle()
+        configHandler.conf = newConf
     }
     
     @IBAction func refreshChange(_ sender: NSTextField) {
         if sender.doubleValue > 0.0 {
-            appDelegate?.state.config.refreshTime = Double(sender.doubleValue)
-            appDelegate?.timer?.invalidate()
-            appDelegate?.startTimer(wait: appDelegate?.state.config.refreshTime ?? 0.5)
-            appDelegate?.writeCfg(conf: (appDelegate?.state.config)!)
-            appDelegate?.applyCfg()
+            let newConf = (configHandler.conf.copy() as! ConfigData)
+            newConf.refreshTime = Double(sender.doubleValue)
+            configHandler.conf = newConf
         }
     }
     

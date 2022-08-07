@@ -2,51 +2,58 @@
 //  ConfigHandler.swift
 //  CPUMonitor
 //
-//  Created by Lennard on 05.08.22.
+//  Created by Lennard on 06.08.22.
 //  Copyright © 2022 Lennard Kittner. All rights reserved.
 //
 
 import Foundation
 
+//TODO change cfg path
+
 class ConfigHandler {
+    //let conf_dir = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/")
+    //let conf_file = URL(fileURLWithPath: "\(FileManager.default.homeDirectoryForCurrentUser.path)/.config/CPUMonitor/CPUMonitor/CPUMonitor.cfg")
     
-    static func parseStringToMap(content :String) -> [String : String] {
-        var keyValue: [String : String] = [:]
-        for line in content.components(separatedBy: "\n") {
-            let con = line.components(separatedBy: ": ")
-            if con.count >= 2 {
-                keyValue[con[0]] = con[1] + con[2..<con.count].reduce("", {a, s in a + ": " + s})
-            }
+    // /Users/<name>/Library/Containers/com.Lennard.CPUMonitor/Data/Library/"Application Support"/CPUMonitor/
+    let conf_dir = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/")
+    let conf_file = URL(fileURLWithPath: "\(FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].path)/CPUMonitor/CPUMonitor.cfg")
+    
+    let onChange :(ConfigData) -> Void
+    private var _conf :ConfigData
+    var conf: ConfigData {
+        get { return _conf }
+        set {
+            _conf = newValue
+            onChange(_conf)
         }
+    }
+    
+    init(onChange :@escaping (ConfigData) -> Void) {
+        self.onChange = onChange
+        self._conf = ConfigData()
         
-        return keyValue
-    }
-
-    static func parseMapToObj<T :NSObject>(keyValue :[String : Any], target :T) {
-        let reflection = Mirror(reflecting: target)
-        
-        for child in reflection.children {
-            if child.label != nil && keyValue[child.label!] != nil {
-                target.setValue(keyValue[child.label!], forKey: child.label!)
-            }
+        if !FileManager.default.fileExists(atPath: (conf_file.path)) {
+            writeCfg()
+        } else {
+            readCfg()
         }
     }
-
-    static func parseMapToString(keyValue :[String : Any]) -> String {
-        return keyValue.reduce("", {a, kv  in a + kv.key + ": " + String(describing: kv.value) + "\n"})
-    }
-
-    static func parseObjToMap<T :NSObject>(content :T) -> [String : Any] {
-        let reflection = Mirror(reflecting: content)
-        var keyValue: [String : Any] = [:]
-
-        for child in reflection.children {
-            if child.label != nil {
-                keyValue[child.label!] = child.value
-            }
+    
+    func readCfg() {
+        let conf = ConfigData()
+        if let content = try? String.init(contentsOf: conf_file) {
+            ConfigParser.parseMapToObj(keyValue: ConfigParser.parseStringToMap(content: content), target: conf)
         }
-
-        return keyValue
+        self.conf = conf
     }
-
+    
+    func writeCfg() {
+        let config = ConfigParser.parseMapToString(keyValue: ConfigParser.parseObjToMap(content: _conf))
+        if !FileManager.default.fileExists(atPath: (conf_file.path)) {
+            try! FileManager.default.createDirectory(atPath: conf_dir.path, withIntermediateDirectories: true, attributes: nil)
+            FileManager.default.createFile(atPath: (conf_file.path), contents: config.data(using: String.Encoding.utf8, allowLossyConversion: false)!, attributes: nil)
+            return
+        }
+        try! config.write(to: conf_file, atomically: true, encoding: String.Encoding.utf8)
+    }
 }

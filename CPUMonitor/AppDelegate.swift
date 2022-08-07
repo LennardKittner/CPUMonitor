@@ -15,7 +15,7 @@ import SystemKit
 //TODO make universall
 
 struct State {
-    let memory_max = System.physicalMemory()
+    let maxMemory = System.physicalMemory()
     var oldUsage :Double = 0.0
     var icons = [NSImage]()
 }
@@ -37,10 +37,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         loadImages()
         
         statusItem.length = 60
-        statusItem.menu = NSMenu()
-        menuDelegate = OnOpenMenuDelegate(onOpen: refreshMenu)
+        menuDelegate = OnOpenMenuDelegate(onOpen: refrshMenu)
         statusItem.menu?.delegate = menuDelegate
         configHandler = ConfigHandler(onChange: applyCfg)
+    }
+    
+    func refrshMenu(menu: NSMenu) {
+        if let memMenu = menu as? MemMenu {
+            memMenu.refreshMenu(memoryUsage: System.memoryUsage())
+        }
     }
     
     func loadImages() {
@@ -55,7 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applyCfg(conf :ConfigData) {
         configHandler?.writeCfg()
-        initMenu(menu: statusItem.menu!, conf: conf)
+        statusItem.menu = MemMenu(conf: conf, maxMemory: state.maxMemory)
+        statusItem.menu?.delegate = menuDelegate
         if conf.startAtLogin {
             setStartAtLogin()
         }
@@ -86,43 +92,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = state.icons[index]
     }
     
-    func refreshMenu(menu: NSMenu) {
-        let memoryUsage = System.memoryUsage()
-        let memoryUsageA  = [memoryUsage.free, memoryUsage.inactive, memoryUsage.compressed, memoryUsage.active, memoryUsage.wired]
-        (menu.item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsage.free + memoryUsage.inactive, val2: state.memory_max)
-        for i in 1..<menu.items.count-2 {
-            (menu.item(at: i) as? SimpleMemItem)?.update(val1: memoryUsageA[i-1])
-        }
-    }
-    
-    func initMenu(menu: NSMenu, conf: ConfigData) {
-        menu.removeAllItems()
-        menu.addItem(createSimpleMemItem())
-        
-        if conf.detailedMemory {
-            createDetailedMemItems().forEach(({menu.addItem($0)}))
-        }
-    
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.showPreferences(_:)), keyEquivalent: ","))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-    }
-    
-    func createSimpleMemItem() -> NSMenuItem {
-        return SimpleMemItem(prefix: "Memory: ", middle: " GB / ", suffix: " GB", toolTip: "memory usage (free + inactive)")
-    }
-    
-    func createDetailedMemItems() -> [NSMenuItem] {
-        var items :[NSMenuItem] = []
-        items.append(SimpleMemItem(prefix: "Free: ", suffix: " GB", toolTip: "free memory"))
-        items.append(SimpleMemItem(prefix: "Inactive: ", suffix: " GB", toolTip: "memory used by closed apps to speed up next launch"))
-        items.append(SimpleMemItem(prefix: "Compressed: ", suffix: " GB", toolTip: "compresed memory"))
-        items.append(SimpleMemItem(prefix: "Active: ", suffix: " GB", toolTip: "activly used user memory "))
-        items.append(SimpleMemItem(prefix: "Wired: ", suffix: " GB", toolTip: "system memory"))
-        return items
-    }
-
     @objc func showPreferences(_ sender: Any?) {
         if (preferencesController == nil) {
             let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Preferences"), bundle: nil)

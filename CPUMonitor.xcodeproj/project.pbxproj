@@ -22,6 +22,7 @@
 		DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; };
 		DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DB8CCA4E289FDA1B008CB746 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */; };
+		DB8CCA5028A00458008CB746 /* MemMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8CCA4F28A00458008CB746 /* MemMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		DB8B682928948CEF005B7560 /* System.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = System.c; sourceTree = "<group>"; };
 		DB8B683928972BBB005B7560 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 		DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
+		DB8CCA4F28A00458008CB746 /* MemMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				DB0BD9A3289DABF700475C43 /* ConfigData.swift */,
 				DB0BD9A6289EA41500475C43 /* OnOpenMenuDelegate.swift */,
 				DB0BD9A8289EDE2400475C43 /* ConfigHandler.swift */,
+				DB8CCA4F28A00458008CB746 /* MemMenu.swift */,
 			);
 			path = CPUMonitor;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				49205A6121320E6E00FDCC76 /* PreferencefViewController.swift in Sources */,
 				492059E8212CAADB00FDCC76 /* ViewController.swift in Sources */,
 				49205A6221320E6E00FDCC76 /* PreferencesWindowController.swift in Sources */,
+				DB8CCA5028A00458008CB746 /* MemMenu.swift in Sources */,
 				DB0BD9A9289EDE2400475C43 /* ConfigHandler.swift in Sources */,
 				DB0BD9A2289DABD200475C43 /* ConfigParser.swift in Sources */,
 				DB0BD9A7289EA41500475C43 /* OnOpenMenuDelegate.swift in Sources */,

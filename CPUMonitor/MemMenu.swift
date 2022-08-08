@@ -33,7 +33,7 @@ class MemMenu: NSMenu {
         super.init(coder: coder)
     }
     
-    func refreshMenu(memoryUsage: (free: Double, active: Double, inactive: Double, wired: Double, compressed: Double)) {
+    func refresh(memoryUsage: (free: Double, active: Double, inactive: Double, wired: Double, compressed: Double)) {
         let memoryUsageA  = [memoryUsage.free, memoryUsage.inactive, memoryUsage.compressed, memoryUsage.active, memoryUsage.wired]
         (item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsage.free + memoryUsage.inactive, val2: maxMemory)
         for i in 1..<items.count-2 {

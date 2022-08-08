@@ -10,14 +10,14 @@ import Cocoa
 //import LaunchAtLogin
 import SystemKit
 
-//TODO move Menu
+//TODO percent number
 //TODO add autostart
 //TODO make universall
 
 struct State {
     let maxMemory = System.physicalMemory()
-    var oldUsage :Double = 0.0
-    var icons = [NSImage]()
+    var currentCpuUsage = 0.0
+    var icons :[NSImage] = []
 }
 
 @NSApplicationMain
@@ -32,11 +32,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var configHandler :ConfigHandler?
   
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
         sys = System()
-        loadImages()
-        
         statusItem.length = 60
+        state.icons = loadImages()
         menuDelegate = OnOpenMenuDelegate(onOpen: refrshMenu)
         statusItem.menu?.delegate = menuDelegate
         configHandler = ConfigHandler(onChange: applyCfg)
@@ -44,18 +42,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func refrshMenu(menu: NSMenu) {
         if let memMenu = menu as? MemMenu {
-            memMenu.refreshMenu(memoryUsage: System.memoryUsage())
+            memMenu.refresh(memoryUsage: System.memoryUsage())
         }
     }
     
-    func loadImages() {
-        for i in stride(from: 0, to: 101, by: 2) {
-            state.icons.append(NSImage(named: NSImage.Name(String(i)))!)
+    @objc func refreshButton(_ sender: Any?) {
+        refresh(cpuUsage: sys?.usageCPU() ?? (0.0, 0.0, 0.0, 0.0))
+    }
+    
+    func refresh(cpuUsage: (system: Double, user: Double, idle: Double, nice: Double)) {
+        let usage = cpuUsage.user + cpuUsage.system
+        if state.currentCpuUsage != usage && usage >= 0 {
+            state.currentCpuUsage = usage
+            statusItem.toolTip = "CPUusage: \(String(format: "%.2f",usage))%"
+            let index = Int(usage / 2)
+            statusItem.image = state.icons[index]
         }
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        
+    
+    func loadImages() -> [NSImage] {
+        var icons :[NSImage] = []
+        for i in stride(from: 0, to: 101, by: 2) {
+            icons.append(NSImage(named: NSImage.Name(String(i)))!)
+        }
+        return icons
     }
     
     func applyCfg(conf :ConfigData) {
@@ -65,7 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if conf.startAtLogin {
             setStartAtLogin()
         }
-        if timer!.timeInterval != conf.refreshTime {
+        if timer?.timeInterval ?? -1 != conf.refreshTime {
             startTimer(wait: conf.refreshTime)
         }
     }
@@ -75,21 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func startTimer(wait: Double){
-        timer = Timer.scheduledTimer(timeInterval: wait, target: self, selector: #selector(refresh(_:)), userInfo: nil, repeats: true)
-    }
-
-    @objc func refresh(_ sender: Any?) {
-        let cpuUsage = sys?.usageCPU()
-        let usaged = (cpuUsage?.user)!+(cpuUsage?.system)!
-        if state.oldUsage != usaged && usaged > 0 {
-            statusItem.button?.toolTip = "CPUusage: \(String(format: "%.2f",usaged))%"
-            refreshIcon(usage: usaged)
-        }
-    }
-    
-    func refreshIcon(usage: Double){
-        let index = Int(usage / 2)
-        statusItem.button?.image = state.icons[index]
+        timer = Timer.scheduledTimer(timeInterval: wait, target: self, selector: #selector(refreshButton(_:)), userInfo: nil, repeats: true)
     }
     
     @objc func showPreferences(_ sender: Any?) {

@@ -35,23 +35,38 @@ class MemMenu: NSMenu {
     
     func refresh(memoryUsage: (free: Double, active: Double, inactive: Double, wired: Double, compressed: Double)) {
         let memoryUsageA  = [memoryUsage.free, memoryUsage.inactive, memoryUsage.compressed, memoryUsage.active, memoryUsage.wired]
-        (item(at: 0) as? SimpleMemItem)?.update(val1: memoryUsage.free + memoryUsage.inactive, val2: maxMemory)
+        (item(at: 0) as? UpdateItem)?.update(values: memoryUsage.active + memoryUsage.wired, maxMemory)
         for i in 1..<items.count-2 {
-            (item(at: i) as? SimpleMemItem)?.update(val1: memoryUsageA[i-1])
+            (item(at: i) as? UpdateItem)?.update(values: memoryUsageA[i-1])
         }
     }
         
-    func createSimpleMemItem() -> NSMenuItem {
-        return SimpleMemItem(prefix: "Memory: ", middle: " GB / ", suffix: " GB", toolTip: "memory usage (free + inactive)")
+    private func createSimpleMemItem() -> NSMenuItem {
+        let update = {(a: [Double]) -> String in
+            if a.count < 2 {
+                return ""
+            }
+            let per = a[0] / a[1]
+            return "Memory: " + String(format: "%.2f", a[0]) + " GB / " + String(format: "%.2f", a[1]) + " GB (\(String(format: "%.0f", per*100))%)"
+        }
+        return UpdateItem(toolTip: "current memory usage (active + wired)", update: update)
     }
     
-    func createDetailedMemItems() -> [NSMenuItem] {
+    private func createDetailedMemItems() -> [NSMenuItem] {
+        let updateFabric = {(prefix: String) -> (([Double]) -> String) in
+            return {(a: [Double]) -> String in
+                if a.count < 1 {
+                    return ""
+                }
+                return prefix + String(format: "%.2f", a.first!) + " GB"
+            }
+        }
         var items :[NSMenuItem] = []
-        items.append(SimpleMemItem(prefix: "Free: ", suffix: " GB", toolTip: "free memory"))
-        items.append(SimpleMemItem(prefix: "Inactive: ", suffix: " GB", toolTip: "memory used by closed apps to speed up next launch"))
-        items.append(SimpleMemItem(prefix: "Compressed: ", suffix: " GB", toolTip: "compresed memory"))
-        items.append(SimpleMemItem(prefix: "Active: ", suffix: " GB", toolTip: "activly used user memory "))
-        items.append(SimpleMemItem(prefix: "Wired: ", suffix: " GB", toolTip: "system memory"))
+        items.append(UpdateItem(toolTip: "free memory", update: updateFabric("Free: ")))
+        items.append(UpdateItem(toolTip: "memory used by closed apps to speed up next launch", update: updateFabric("Inactive: ")))
+        items.append(UpdateItem(toolTip: "compresed memory", update: updateFabric("Compressed: ")))
+        items.append(UpdateItem(toolTip: "activly used user memory ", update: updateFabric("Active: ")))
+        items.append(UpdateItem(toolTip: "system memory", update:updateFabric("Wired: ")))
         return items
     }
 

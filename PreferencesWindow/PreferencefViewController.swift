@@ -15,7 +15,7 @@ class PreferencefViewController: NSTabViewController {
     @IBOutlet weak var memdetail: NSButton!
     @IBOutlet weak var refresh: NSTextField!
     
-    var configHandler :ConfigHandler!
+    private var configHandler :ConfigHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +58,7 @@ class PreferencefViewController: NSTabViewController {
             newConf.refreshTime = Double(sender.doubleValue)
             configHandler.conf = newConf
         }
+        sender.doubleValue = configHandler.conf.refreshTime
     }
     
     @IBAction func openGitHub(_ sender: Any) {

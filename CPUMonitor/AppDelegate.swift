@@ -10,7 +10,6 @@ import Cocoa
 //import LaunchAtLogin
 import SystemKit
 
-//TODO percent number
 //TODO add autostart
 //TODO make universall
 
@@ -24,15 +23,19 @@ struct State {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
-    var state = State()
-    var timer :Timer?
-    var sys :System?
+    var sys :System
+    var state :State
     var menuDelegate :NSMenuDelegate?
+    var timer :Timer?
     var preferencesController :NSWindowController?
-    var configHandler :ConfigHandler?
+    var configHandler :ConfigHandler!
   
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    override init() {
         sys = System()
+        state = State()
+    }
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         statusItem.length = 60
         state.icons = loadImages()
         menuDelegate = OnOpenMenuDelegate(onOpen: refrshMenu)
@@ -47,7 +50,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func refreshButton(_ sender: Any?) {
-        refresh(cpuUsage: sys?.usageCPU() ?? (0.0, 0.0, 0.0, 0.0))
+        refresh(cpuUsage: sys.usageCPU())
     }
     
     func refresh(cpuUsage: (system: Double, user: Double, idle: Double, nice: Double)) {
@@ -76,6 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             setStartAtLogin()
         }
         if timer?.timeInterval ?? -1 != conf.refreshTime {
+            timer?.invalidate()
             startTimer(wait: conf.refreshTime)
         }
     }

@@ -171,7 +171,6 @@
 				492059DE212CAADB00FDCC76 /* Sources */,
 				492059DF212CAADB00FDCC76 /* Frameworks */,
 				492059E0212CAADB00FDCC76 /* Resources */,
-				4913A7E8213B62AE00A03E3B /* ShellScript */,
 				DB8B683828972B09005B7560 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -258,22 +257,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		4913A7E8213B62AE00A03E3B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\norigin_helper_path=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/LaunchAtLogin.framework/Resources/LaunchAtLoginHelper.app\"\nhelper_dir=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\nhelper_path=\"$helper_dir/LaunchAtLoginHelper.app\"\n\nrm -rf \"$helper_path\"\nmkdir -p \"$helper_dir\"\ncp -rf \"$origin_helper_path\" \"$helper_dir/\"\n\ndefaults write \"$helper_path/Contents/Info\" CFBundleIdentifier -string \"$PRODUCT_BUNDLE_IDENTIFIER-LaunchAtLoginHelper\"\ncodesign --force --entitlements=\"$CODE_SIGN_ENTITLEMENTS\" --sign=\"$EXPANDED_CODE_SIGN_IDENTITY_NAME\" \"$helper_path\"\n\nif [[ $CONFIGURATION == \"Release\" ]]; then\nrm -rf \"$origin_helper_path\"\nrm \"$(dirname \"$origin_helper_path\")/copy-helper.sh\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		492059DE212CAADB00FDCC76 /* Sources */ = {

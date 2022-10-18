@@ -10,8 +10,8 @@ import Cocoa
 //import LaunchAtLogin
 import SystemKit
 
-//TODO add autostart
-//TODO make universall
+//TODO: add autostart
+//TODO: migrate to swiftUI
 
 struct State {
     let maxMemory = System.physicalMemory()
@@ -39,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.length = 60
         state.icons = loadImages()
         menuDelegate = OnOpenMenuDelegate(onOpen: refrshMenu)
-        statusItem.menu?.delegate = menuDelegate
         configHandler = ConfigHandler(onChange: applyCfg)
     }
     

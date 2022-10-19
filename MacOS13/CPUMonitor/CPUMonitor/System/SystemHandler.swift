@@ -19,8 +19,8 @@ enum MemoryType: String {
 }
 
 class SystemHandler :ObservableObject {
-    let maxMemory = System.physicalMemory()
-    @Published var currentCpuUsage :(system: Double, user: Double, idle: Double, nice: Double)
+    let physicalMemory = System.physicalMemory()
+    @Published var currentCpuUsage :Double
     @Published var currentMemoryUsage :OrderedDictionary<MemoryType, Double>
     private var timer :Timer?
     private let configHandler :ConfigHandler
@@ -28,10 +28,11 @@ class SystemHandler :ObservableObject {
     private var configSink :Cancellable!
 
     init(configHandler: ConfigHandler) {
-        currentCpuUsage = (0, 0, 0, 0)
+        currentCpuUsage = 0
         currentMemoryUsage = [:]
         sys = System()
         self.configHandler = configHandler
+        update()
         configSink = configHandler.$submit.sink(receiveValue: { _ in
             
             if self.timer?.timeInterval ?? -1 != TimeInterval(self.configHandler.conf.refreshIntervall) && self.configHandler.conf.refreshIntervall > 0 {
@@ -46,17 +47,21 @@ class SystemHandler :ObservableObject {
     }
     
     func update() {
-        currentCpuUsage = sys.usageCPU()
+        currentCpuUsage = parseCPUUsage(usage: sys.usageCPU())
         currentMemoryUsage = parseMemoryUsage(usage: System.memoryUsage())
+    }
+    
+    private func parseCPUUsage(usage: (system: Double, user: Double, idle: Double, nice: Double)) -> Double {
+        return usage.user + usage.system
     }
     
     private func parseMemoryUsage(usage: (free: Double, active: Double, inactive: Double, wired: Double, compressed: Double)) -> OrderedDictionary<MemoryType, Double> {
         var dict = OrderedDictionary<MemoryType, Double>()
         dict[MemoryType.free] = usage.free
-        dict[MemoryType.active] = usage.free
-        dict[MemoryType.inactive] = usage.free
-        dict[MemoryType.wired] = usage.free
-        dict[MemoryType.compressed] = usage.free
+        dict[MemoryType.active] = usage.active
+        dict[MemoryType.inactive] = usage.inactive
+        dict[MemoryType.wired] = usage.wired
+        dict[MemoryType.compressed] = usage.compressed
         return dict
     }
 }

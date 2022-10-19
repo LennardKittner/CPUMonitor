@@ -19,13 +19,15 @@ struct CPUMonitorApp: App {
     var body: some Scene {
         WindowGroup("") {
             Text("placeholder")
+            CPUUsage(usage: $_systemHandler.currentCpuUsage)
         }
         .commands {
             CommandMenu("My Top Menu") {
-                CPUUsage()
+                CPUUsage(usage: $_systemHandler.currentCpuUsage)
                 Divider()
+                OverallMemoryUsageItem(usage: (_systemHandler.currentMemoryUsage[.active] ?? 0) + (_systemHandler.currentMemoryUsage[.wired] ?? 0), total: _systemHandler.physicalMemory)
                 ForEach(_systemHandler.currentMemoryUsage.keys, id: \.self) { key in
-                    MemoryUsageItem()
+                    MemoryUsageItem(title: key.rawValue, value: _systemHandler.currentMemoryUsage[key] ?? 0)
                 }
                 Divider()
                 Button("Preferences") {

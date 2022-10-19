@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct MemoryUsageItem: View {
+    var title :String
+    var value :Double
+    
     var body: some View {
-        Text("Mem")
+        Text("\(title): \(String(format: "%.2f", value)) GB")
     }
 }
 
 struct MemoryUsageItem_Previews: PreviewProvider {
     static var previews: some View {
-        MemoryUsageItem()
+        MemoryUsageItem(title: "test", value: 2.5)
     }
 }

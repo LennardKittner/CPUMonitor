@@ -39,14 +39,14 @@ struct Settings: View {
             }
             HStack {
                 Text("Refresh intervall:")
-                    .padding(.trailing, 14)
+                    .padding(.trailing, 34)
                 ValidatedTextField(content: $configHandler.conf.refreshIntervall, error: $error, validate: validatePositiveFloat(_:), onFocusLost: {configHandler.submit.toggle()})
                     .frame(width: 100)
                 Text("seconds")
             }
             HStack {
                 Text("Detailed memory view:")
-                    .padding(.trailing, 35)
+                    .padding(.trailing, -0.75)
                 Toggle(isOn: $configHandler.conf.detailedMemory) {
                     
                 }
@@ -54,7 +54,7 @@ struct Settings: View {
             }
             HStack {
                 Text("Start at login:")
-                    .padding(.trailing, 35)
+                    .padding(.trailing, 55)
                 Toggle(isOn: $configHandler.conf.atLogin) {
                     
                 }

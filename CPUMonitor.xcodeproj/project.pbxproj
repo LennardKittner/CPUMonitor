@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,10 +19,11 @@
 		DB0BD9A7289EA41500475C43 /* OnOpenMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A6289EA41500475C43 /* OnOpenMenuDelegate.swift */; };
 		DB0BD9A9289EDE2400475C43 /* ConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A8289EDE2400475C43 /* ConfigHandler.swift */; };
 		DB5A17E82899CE0100519982 /* UpdateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A17E72899CE0100519982 /* UpdateItem.swift */; };
-		DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; };
-		DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB8B683928972BBB005B7560 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DB63903328FF043200E4298C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = DB63903228FF043200E4298C /* OrderedCollections */; };
 		DB8CCA4E289FDA1B008CB746 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */; };
 		DB8CCA5028A00458008CB746 /* MemMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8CCA4F28A00458008CB746 /* MemMenu.swift */; };
+		DBB05FE6290093FE00162C01 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE5290093FE00162C01 /* SystemKit.framework */; };
+		DBB05FE7290093FE00162C01 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE5290093FE00162C01 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +43,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DB8B683B28972BBB005B7560 /* SystemKit.framework in Embed Frameworks */,
+				DBB05FE7290093FE00162C01 /* SystemKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,9 +70,9 @@
 		DB5A17E72899CE0100519982 /* UpdateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItem.swift; sourceTree = "<group>"; };
 		DB8B682828948CEF005B7560 /* System.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
 		DB8B682928948CEF005B7560 /* System.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = System.c; sourceTree = "<group>"; };
-		DB8B683928972BBB005B7560 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 		DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		DB8CCA4F28A00458008CB746 /* MemMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemMenu.swift; sourceTree = "<group>"; };
+		DBB05FE5290093FE00162C01 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB8B683A28972BBB005B7560 /* SystemKit.framework in Frameworks */,
+				DBB05FE6290093FE00162C01 /* SystemKit.framework in Frameworks */,
+				DB63903328FF043200E4298C /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,7 +158,7 @@
 		DB8B6830289557A2005B7560 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DB8B683928972BBB005B7560 /* SystemKit.framework */,
+				DBB05FE5290093FE00162C01 /* SystemKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -178,6 +180,9 @@
 			dependencies = (
 			);
 			name = CPUMonitor;
+			packageProductDependencies = (
+				DB63903228FF043200E4298C /* OrderedCollections */,
+			);
 			productName = CPUMonitor;
 			productReference = 492059E2212CAADB00FDCC76 /* CPUMonitor.app */;
 			productType = "com.apple.product-type.application";
@@ -228,6 +233,9 @@
 				Base,
 			);
 			mainGroup = 492059D9212CAADB00FDCC76;
+			packageReferences = (
+				DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 492059E3212CAADB00FDCC76 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -546,6 +554,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DB63903228FF043200E4298C /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 492059DA212CAADB00FDCC76 /* Project object */;
 }

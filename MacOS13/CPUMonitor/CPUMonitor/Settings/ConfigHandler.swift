@@ -27,15 +27,9 @@ class ConfigHandler :ObservableObject {
             if conf == self.oldConf {
                 return
             }
-            self.applySettings(conf: conf)
             writeCfg(conf, to: ConfigHandler.CONF_FILE)
             self.oldConf = ConfigData(copy: conf)
         })
-        applySettings(conf: conf)
-    }
-    
-    private func applySettings(conf: ConfigData) {
-        
     }
 }
     

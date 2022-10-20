@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TabView: View {
-    @EnvironmentObject private var configHandler :ConfigHandler
     @Binding var currentTab :Int
 
     var body: some View {
@@ -17,7 +16,8 @@ struct TabView: View {
                 About()
             } else if currentTab == 1 {
                 Settings()
-                    .environmentObject(configHandler)
+            } else if currentTab == 2 {
+                Licenses(licenseHandler: LicenseHandler())
             }
         }
         .frame(width: 450, height: 150)

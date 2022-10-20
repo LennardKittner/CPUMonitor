@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainMenu: View {
-    var systemHandler: SystemHandler
+    @EnvironmentObject var systemHandler: SystemHandler
     @EnvironmentObject var configHandler: ConfigHandler
     @State private var curretnTab = 0
 
@@ -23,7 +23,7 @@ struct MainMenu: View {
         Button("Preferences") {
             TabView(currentTab: $curretnTab)
                 .environmentObject(configHandler)
-                .openNewWindowWithToolbar(title: "CPUMonitorApp", rect: NSRect(x: 0, y: 0, width: 450, height: 150), style: [.closable, .titled], toolbar: Toolbar(tabs: ["About", "Settings"], currentTab: $curretnTab))
+                .openNewWindowWithToolbar(title: "CPUMonitorApp", rect: NSRect(x: 0, y: 0, width: 450, height: 150), style: [.closable, .titled], toolbar: Toolbar(tabs: ["About", "Settings", "Licenses"], currentTab: $curretnTab))
         }.keyboardShortcut(",")
         Divider()
         Button("Quit") {
@@ -34,7 +34,8 @@ struct MainMenu: View {
 
 struct MainMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MainMenu(systemHandler: SystemHandler(configHandler: ConfigHandler()))
+        MainMenu()
+            .environmentObject(SystemHandler(configHandler: ConfigHandler()))
             .environmentObject(ConfigHandler())
     }
 }

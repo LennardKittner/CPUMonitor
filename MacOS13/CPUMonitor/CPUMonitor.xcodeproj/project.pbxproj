@@ -26,6 +26,9 @@
 		DBB05FE32900729900162C01 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE22900729900162C01 /* SystemKit.framework */; };
 		DBB05FE42900729900162C01 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE22900729900162C01 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DBB05FE929009B8400162C01 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FE829009B8400162C01 /* MainMenu.swift */; };
+		DBB05FEB29009E7D00162C01 /* Licenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FEA29009E7D00162C01 /* Licenses.swift */; };
+		DBB05FEE2900A22600162C01 /* LicenseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FED2900A22600162C01 /* LicenseHandler.swift */; };
+		DBB05FEF2900B29100162C01 /* Licenses.md in Resources */ = {isa = PBXBuildFile; fileRef = DBB05FEC2900A17D00162C01 /* Licenses.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,6 +65,9 @@
 		DB63903B2900095200E4298C /* OverallMemoryUsageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallMemoryUsageItem.swift; sourceTree = "<group>"; };
 		DBB05FE22900729900162C01 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 		DBB05FE829009B8400162C01 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		DBB05FEA29009E7D00162C01 /* Licenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Licenses.swift; sourceTree = "<group>"; };
+		DBB05FEC2900A17D00162C01 /* Licenses.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Licenses.md; sourceTree = "<group>"; };
+		DBB05FED2900A22600162C01 /* LicenseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,7 @@
 		DB638FF228FEC6FF00E4298C = {
 			isa = PBXGroup;
 			children = (
+				DBB05FEC2900A17D00162C01 /* Licenses.md */,
 				DB638FFD28FEC6FF00E4298C /* CPUMonitor */,
 				DB638FFC28FEC6FF00E4298C /* Products */,
 				DB63902228FEFC0E00E4298C /* Frameworks */,
@@ -100,6 +107,7 @@
 				DB63901F28FEF8CE00E4298C /* Settings */,
 				DB638FFE28FEC6FF00E4298C /* CPUMonitorApp.swift */,
 				DBB05FE829009B8400162C01 /* MainMenu.swift */,
+				DBB05FED2900A22600162C01 /* LicenseHandler.swift */,
 				DB63903D29001D0200E4298C /* System */,
 				DB63902028FEF99700E4298C /* Utility.swift */,
 				DB63900228FEC70000E4298C /* Assets.xcassets */,
@@ -127,6 +135,7 @@
 				DB63901728FEF8AF00E4298C /* TabView.swift */,
 				DB63901228FEF8AF00E4298C /* Toolbar.swift */,
 				DB63901128FEF8AF00E4298C /* ValidatedTextField.swift */,
+				DBB05FEA29009E7D00162C01 /* Licenses.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -215,6 +224,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBB05FEF2900B29100162C01 /* Licenses.md in Resources */,
 				DB63900728FEC70000E4298C /* Preview Assets.xcassets in Resources */,
 				DB63900328FEC70000E4298C /* Assets.xcassets in Resources */,
 			);
@@ -230,6 +240,8 @@
 				DB63902128FEF99700E4298C /* Utility.swift in Sources */,
 				DB63901E28FEF8AF00E4298C /* ConfigHandler.swift in Sources */,
 				DB63903A28FF0E8200E4298C /* CPUUsage.swift in Sources */,
+				DBB05FEB29009E7D00162C01 /* Licenses.swift in Sources */,
+				DBB05FEE2900A22600162C01 /* LicenseHandler.swift in Sources */,
 				DB63903C2900095200E4298C /* OverallMemoryUsageItem.swift in Sources */,
 				DB63901D28FEF8AF00E4298C /* Toolbar.swift in Sources */,
 				DB63901928FEF8AF00E4298C /* ValidatedTextField.swift in Sources */,
@@ -387,15 +399,16 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lennard.CPUMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -430,15 +443,16 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Lennard.CPUMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

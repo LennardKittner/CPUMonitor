@@ -7,24 +7,30 @@
 
 import SwiftUI
 
-var configHandler = ConfigHandler()
-var systemHandler = SystemHandler(configHandler: configHandler)
 
 //TODO: start at login
-//TODO: Settings reseting
 @available(macOS 13.0, *)
 @main
 struct CPUMonitorApp: App {
-    @StateObject private var _configHandler = configHandler
-    @StateObject private var _systemHandler = systemHandler
-
+    @StateObject private var configHandler :ConfigHandler
+    @StateObject private var systemHandler :SystemHandler
+    @StateObject private var licenseHandler :LicenseHandler
+    
+    init() {
+        let confH = ConfigHandler()
+        self._configHandler = StateObject(wrappedValue: confH)
+        self._systemHandler = StateObject(wrappedValue: SystemHandler(configHandler: confH))
+        self._licenseHandler = StateObject(wrappedValue: LicenseHandler())
+    }
+    
     var body: some Scene {
         MenuBarExtra(content: {
             MainMenu()
-                .environmentObject(_configHandler)
-                .environmentObject(_systemHandler)
+                .environmentObject(configHandler)
+                .environmentObject(systemHandler)
+                .environmentObject(licenseHandler)
         }) {
-            Image(String(Int(_systemHandler.currentCpuUsage) + Int(_systemHandler.currentCpuUsage) % 2))
+            Image(String(Int(systemHandler.currentCpuUsage) + Int(systemHandler.currentCpuUsage) % 2))
             //CPUUsage(usage: $_systemHandler.currentCpuUsage)
         }
     }

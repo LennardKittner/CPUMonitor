@@ -32,7 +32,7 @@ struct About: View {
             .buttonStyle(.link)
             .padding(.top, 5)
         }
-        .padding(.leading, -150.0)
+        .padding(.leading, -202.0)
     }
 }
 

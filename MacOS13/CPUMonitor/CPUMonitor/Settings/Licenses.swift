@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct Licenses: View {
-    var licenseHandler :LicenseHandler
+    @EnvironmentObject var licenseHandler :LicenseHandler
     
     var body: some View {
         ScrollView {
             Text(licenseHandler.licensesAttr)
+                .padding(15)
         }
     }
 }
 
 struct Licenses_Previews: PreviewProvider {
     static var previews: some View {
-        Licenses(licenseHandler: LicenseHandler())
+        Licenses()
+            .environmentObject(LicenseHandler())
     }
 }

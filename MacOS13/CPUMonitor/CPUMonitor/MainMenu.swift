@@ -10,6 +10,7 @@ import SwiftUI
 struct MainMenu: View {
     @EnvironmentObject var systemHandler: SystemHandler
     @EnvironmentObject var configHandler: ConfigHandler
+    @EnvironmentObject var licenseHandler: LicenseHandler
     @State private var curretnTab = 0
 
     var body: some View {
@@ -23,6 +24,7 @@ struct MainMenu: View {
         Button("Preferences") {
             TabView(currentTab: $curretnTab)
                 .environmentObject(configHandler)
+                .environmentObject(licenseHandler)
                 .openNewWindowWithToolbar(title: "CPUMonitorApp", rect: NSRect(x: 0, y: 0, width: 450, height: 150), style: [.closable, .titled], toolbar: Toolbar(tabs: ["About", "Settings", "Licenses"], currentTab: $curretnTab))
         }.keyboardShortcut(",")
         Divider()

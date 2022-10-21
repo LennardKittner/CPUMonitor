@@ -17,7 +17,7 @@ struct TabView: View {
             } else if currentTab == 1 {
                 Settings()
             } else if currentTab == 2 {
-                Licenses(licenseHandler: LicenseHandler())
+                Licenses()
             }
         }
         .frame(width: 450, height: 150)

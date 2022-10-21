@@ -7,9 +7,9 @@
 
 import Foundation
 
-class LicenseHandler {
-    var licenses: String = ""
-    var licensesAttr: AttributedString = ""
+class LicenseHandler :ObservableObject {
+    @Published var licenses: String = ""
+    @Published var licensesAttr: AttributedString = ""
     
     init() {
         if let filePath = Bundle.main.url(forResource: "Licenses", withExtension: "md") {

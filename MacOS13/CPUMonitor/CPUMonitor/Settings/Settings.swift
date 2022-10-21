@@ -40,7 +40,7 @@ struct Settings: View {
             HStack {
                 Text("Refresh intervall:")
                     .padding(.trailing, 34)
-                ValidatedTextField(content: $configHandler.conf.refreshIntervall, error: $error, validate: validatePositiveFloat(_:), onFocusLost: {configHandler.submit.toggle()})
+                ValidatedTextField(content: $configHandler.conf.refreshIntervall, error: $error, validate: validatePositiveFloat(_:))
                     .frame(width: 100)
                 Text("seconds")
             }
@@ -60,8 +60,6 @@ struct Settings: View {
                 }
                 .toggleStyle(CheckboxToggleStyle())
             }
-        }.onDisappear {
-            configHandler.submit.toggle()
         }
         .padding(.leading, -95.0)
     }

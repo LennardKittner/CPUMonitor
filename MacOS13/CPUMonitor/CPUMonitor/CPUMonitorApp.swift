@@ -31,6 +31,9 @@ struct CPUMonitorApp: App {
                 .environmentObject(licenseHandler)
         }) {
             Image(String(Int(systemHandler.currentCpuUsage) + Int(systemHandler.currentCpuUsage) % 2))
+            if configHandler.conf.showUtilization {
+                Text("\(String(format: "%.2f", systemHandler.currentCpuUsage)) %")
+            }
             //CPUUsage(usage: $_systemHandler.currentCpuUsage)
         }
     }

@@ -51,7 +51,11 @@ class SystemHandler :ObservableObject {
     }
     
     private func parseCPUUsage(usage: (system: Double, user: Double, idle: Double, nice: Double)) -> Double {
-        return usage.user + usage.system
+        let combinedUsage = usage.user + usage.system
+        if combinedUsage.isNaN || combinedUsage.isInfinite {
+            return 100
+        }
+        return combinedUsage
     }
     
     private func parseMemoryUsage(usage: (free: Double, active: Double, inactive: Double, wired: Double, compressed: Double)) -> OrderedDictionary<MemoryType, Double> {

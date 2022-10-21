@@ -53,6 +53,14 @@ struct Settings: View {
                 .toggleStyle(CheckboxToggleStyle())
             }
             HStack {
+                Text("Show CPU utilization:")
+                    .padding(.trailing, 7)
+                Toggle(isOn: $configHandler.conf.showUtilization) {
+                    
+                }
+                .toggleStyle(CheckboxToggleStyle())
+            }
+            HStack {
                 Text("Start at login:")
                     .padding(.trailing, 55)
                 Toggle(isOn: $configHandler.conf.atLogin) {

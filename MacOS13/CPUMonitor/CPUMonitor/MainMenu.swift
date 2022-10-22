@@ -23,9 +23,10 @@ struct MainMenu: View {
         Divider()
         Button("Preferences") {
             TabView(currentTab: $curretnTab)
+                .tag(2)
                 .environmentObject(configHandler)
                 .environmentObject(licenseHandler)
-                .openNewWindowWithToolbar(title: "CPUMonitorApp", rect: NSRect(x: 0, y: 0, width: 450, height: 150), style: [.closable, .titled], toolbar: Toolbar(tabs: ["About", "Settings", "Licenses"], currentTab: $curretnTab))
+                .openNewWindowWithToolbar(title: "CPUMonitorApp", rect: NSRect(x: 0, y: 0, width: 450, height: 150), style: [.closable, .titled], identifier: "Settings", toolbar: Toolbar(tabs: ["About", "Settings", "Licenses"], currentTab: $curretnTab))
         }.keyboardShortcut(",")
         Divider()
         Button("Quit") {

@@ -8,7 +8,6 @@
 import SwiftUI
 
 
-//TODO: start at login
 @available(macOS 13.0, *)
 @main
 struct CPUMonitorApp: App {

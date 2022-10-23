@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB45BA842905E88900C03713 /* SystemKit in Frameworks */ = {isa = PBXBuildFile; productRef = DB45BA832905E88900C03713 /* SystemKit */; };
 		DB638FFF28FEC6FF00E4298C /* CPUMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB638FFE28FEC6FF00E4298C /* CPUMonitorApp.swift */; };
 		DB63900328FEC70000E4298C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB63900228FEC70000E4298C /* Assets.xcassets */; };
 		DB63900728FEC70000E4298C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB63900628FEC70000E4298C /* Preview Assets.xcassets */; };
@@ -23,8 +24,6 @@
 		DB63903828FF0E3400E4298C /* MemoryUsageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB63903728FF0E3400E4298C /* MemoryUsageItem.swift */; };
 		DB63903A28FF0E8200E4298C /* CPUUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB63903928FF0E8200E4298C /* CPUUsage.swift */; };
 		DB63903C2900095200E4298C /* OverallMemoryUsageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB63903B2900095200E4298C /* OverallMemoryUsageItem.swift */; };
-		DBB05FE32900729900162C01 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE22900729900162C01 /* SystemKit.framework */; };
-		DBB05FE42900729900162C01 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE22900729900162C01 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DBB05FE929009B8400162C01 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FE829009B8400162C01 /* MainMenu.swift */; };
 		DBB05FEB29009E7D00162C01 /* Licenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FEA29009E7D00162C01 /* Licenses.swift */; };
 		DBB05FEE2900A22600162C01 /* LicenseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB05FED2900A22600162C01 /* LicenseHandler.swift */; };
@@ -38,7 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DBB05FE42900729900162C01 /* SystemKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,7 +61,6 @@
 		DB63903728FF0E3400E4298C /* MemoryUsageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageItem.swift; sourceTree = "<group>"; };
 		DB63903928FF0E8200E4298C /* CPUUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsage.swift; sourceTree = "<group>"; };
 		DB63903B2900095200E4298C /* OverallMemoryUsageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallMemoryUsageItem.swift; sourceTree = "<group>"; };
-		DBB05FE22900729900162C01 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
 		DBB05FE829009B8400162C01 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		DBB05FEA29009E7D00162C01 /* Licenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Licenses.swift; sourceTree = "<group>"; };
 		DBB05FEC2900A17D00162C01 /* Licenses.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Licenses.md; sourceTree = "<group>"; };
@@ -75,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBB05FE32900729900162C01 /* SystemKit.framework in Frameworks */,
+				DB45BA842905E88900C03713 /* SystemKit in Frameworks */,
 				DB63903628FF046A00E4298C /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +140,6 @@
 		DB63902228FEFC0E00E4298C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DBB05FE22900729900162C01 /* SystemKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -178,6 +174,7 @@
 			name = CPUMonitor;
 			packageProductDependencies = (
 				DB63903528FF046A00E4298C /* OrderedCollections */,
+				DB45BA832905E88900C03713 /* SystemKit */,
 			);
 			productName = CPUMonitor;
 			productReference = DB638FFB28FEC6FF00E4298C /* CPUMonitor.app */;
@@ -209,6 +206,7 @@
 			mainGroup = DB638FF228FEC6FF00E4298C;
 			packageReferences = (
 				DB63903428FF046A00E4298C /* XCRemoteSwiftPackageReference "swift-collections" */,
+				DB45BA822905E88900C03713 /* XCRemoteSwiftPackageReference "SystemKit" */,
 			);
 			productRefGroup = DB638FFC28FEC6FF00E4298C /* Products */;
 			projectDirPath = "";
@@ -480,6 +478,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DB45BA822905E88900C03713 /* XCRemoteSwiftPackageReference "SystemKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lennard599/SystemKit";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		DB63903428FF046A00E4298C /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -491,6 +497,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DB45BA832905E88900C03713 /* SystemKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB45BA822905E88900C03713 /* XCRemoteSwiftPackageReference "SystemKit" */;
+			productName = SystemKit;
+		};
 		DB63903528FF046A00E4298C /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DB63903428FF046A00E4298C /* XCRemoteSwiftPackageReference "swift-collections" */;

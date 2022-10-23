@@ -18,12 +18,11 @@
 		DB0BD9A4289DABF700475C43 /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A3289DABF700475C43 /* ConfigData.swift */; };
 		DB0BD9A7289EA41500475C43 /* OnOpenMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A6289EA41500475C43 /* OnOpenMenuDelegate.swift */; };
 		DB0BD9A9289EDE2400475C43 /* ConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0BD9A8289EDE2400475C43 /* ConfigHandler.swift */; };
+		DB45BA872905E97300C03713 /* SystemKit in Frameworks */ = {isa = PBXBuildFile; productRef = DB45BA862905E97300C03713 /* SystemKit */; };
 		DB5A17E82899CE0100519982 /* UpdateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5A17E72899CE0100519982 /* UpdateItem.swift */; };
 		DB63903328FF043200E4298C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = DB63903228FF043200E4298C /* OrderedCollections */; };
 		DB8CCA4E289FDA1B008CB746 /* Preferences.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */; };
 		DB8CCA5028A00458008CB746 /* MemMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8CCA4F28A00458008CB746 /* MemMenu.swift */; };
-		DBB05FE6290093FE00162C01 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE5290093FE00162C01 /* SystemKit.framework */; };
-		DBB05FE7290093FE00162C01 /* SystemKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBB05FE5290093FE00162C01 /* SystemKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +34,6 @@
 			remoteInfo = CPUMonitor;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		DB8B683828972B09005B7560 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DBB05FE7290093FE00162C01 /* SystemKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		492059E2212CAADB00FDCC76 /* CPUMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPUMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,8 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBB05FE6290093FE00162C01 /* SystemKit.framework in Frameworks */,
 				DB63903328FF043200E4298C /* OrderedCollections in Frameworks */,
+				DB45BA872905E97300C03713 /* SystemKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +158,6 @@
 				492059DE212CAADB00FDCC76 /* Sources */,
 				492059DF212CAADB00FDCC76 /* Frameworks */,
 				492059E0212CAADB00FDCC76 /* Resources */,
-				DB8B683828972B09005B7560 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -182,6 +166,7 @@
 			name = CPUMonitor;
 			packageProductDependencies = (
 				DB63903228FF043200E4298C /* OrderedCollections */,
+				DB45BA862905E97300C03713 /* SystemKit */,
 			);
 			productName = CPUMonitor;
 			productReference = 492059E2212CAADB00FDCC76 /* CPUMonitor.app */;
@@ -235,6 +220,7 @@
 			mainGroup = 492059D9212CAADB00FDCC76;
 			packageReferences = (
 				DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */,
+				DB45BA852905E97300C03713 /* XCRemoteSwiftPackageReference "SystemKit" */,
 			);
 			productRefGroup = 492059E3212CAADB00FDCC76 /* Products */;
 			projectDirPath = "";
@@ -556,6 +542,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DB45BA852905E97300C03713 /* XCRemoteSwiftPackageReference "SystemKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lennard599/SystemKit";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -567,6 +561,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DB45BA862905E97300C03713 /* SystemKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DB45BA852905E97300C03713 /* XCRemoteSwiftPackageReference "SystemKit" */;
+			productName = SystemKit;
+		};
 		DB63903228FF043200E4298C /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DB63903128FF043200E4298C /* XCRemoteSwiftPackageReference "swift-collections" */;

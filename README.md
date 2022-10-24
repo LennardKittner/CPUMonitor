@@ -14,5 +14,5 @@ The menu bar item menu shows the current memory usage.
 ![Mem2](./screenshots/Mem2.png)
 
 ## Requirements and Versions
-The standard version makes use of APIs that are only available on **MacOS13** and later. An older version for earlier versions of MacOS is included in the **MacOS12 Directory**. The older version has fewer features, e.g. no start at login via app preferences.
+The standard version makes use of APIs that are only available on **MacOS13** and later. An older version for earlier versions of MacOS is included in the **MacOS12 branches**. The older version has fewer features, e.g. no start at login via app preferences.
 

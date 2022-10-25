@@ -53,8 +53,6 @@
 		DB0BD9A6289EA41500475C43 /* OnOpenMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnOpenMenuDelegate.swift; sourceTree = "<group>"; };
 		DB0BD9A8289EDE2400475C43 /* ConfigHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigHandler.swift; sourceTree = "<group>"; };
 		DB5A17E72899CE0100519982 /* UpdateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItem.swift; sourceTree = "<group>"; };
-		DB8B682828948CEF005B7560 /* System.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
-		DB8B682928948CEF005B7560 /* System.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = System.c; sourceTree = "<group>"; };
 		DB8CCA4D289FDA1B008CB746 /* Preferences.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Preferences.storyboard; sourceTree = "<group>"; };
 		DB8CCA4F28A00458008CB746 /* MemMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemMenu.swift; sourceTree = "<group>"; };
 		DBB05FE5290093FE00162C01 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SystemKit.framework; sourceTree = "<group>"; };
@@ -83,8 +81,6 @@
 		492059D9212CAADB00FDCC76 = {
 			isa = PBXGroup;
 			children = (
-				DB8B682828948CEF005B7560 /* System.h */,
-				DB8B682928948CEF005B7560 /* System.c */,
 				49205A5C21320E6D00FDCC76 /* PreferencesWindow */,
 				492059E4212CAADB00FDCC76 /* CPUMonitor */,
 				492059F7212CAADE00FDCC76 /* CPUMonitorTests */,

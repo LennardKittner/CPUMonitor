@@ -64,7 +64,6 @@
 		DB63903B2900095200E4298C /* OverallMemoryUsageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallMemoryUsageItem.swift; sourceTree = "<group>"; };
 		DBB05FE829009B8400162C01 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		DBB05FEA29009E7D00162C01 /* Licenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Licenses.swift; sourceTree = "<group>"; };
-		DBB05FEC2900A17D00162C01 /* Licenses.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Licenses.md; sourceTree = "<group>"; };
 		DBB05FED2900A22600162C01 /* LicenseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,7 +83,6 @@
 		DB638FF228FEC6FF00E4298C = {
 			isa = PBXGroup;
 			children = (
-				DBB05FEC2900A17D00162C01 /* Licenses.md */,
 				DB08EEE62906C42600FE2244 /* Acknowledgements.md */,
 				DB638FFD28FEC6FF00E4298C /* CPUMonitor */,
 				DB638FFC28FEC6FF00E4298C /* Products */,

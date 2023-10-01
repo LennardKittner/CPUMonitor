@@ -50,7 +50,7 @@ class SystemHandler :ObservableObject {
         currentMemoryUsage = parseMemoryUsage(usage: System.memoryUsage())
     }
     
-    private func parseCPUUsage(usage: (system: Double, user: Double, idle: Double, nice: Double)) -> Double {
+    private func parseCPUUsage(usage: (system: Double, user: Double, idle: Double, nice: Double)) -> Double {
         let combinedUsage = usage.user + usage.system
         if combinedUsage.isNaN || combinedUsage.isInfinite {
             return 100

@@ -13,8 +13,8 @@ class LicenseHandler :ObservableObject {
     
     init() {
         if let filePath = Bundle.main.url(forResource: "Acknowledgements", withExtension: "md") {
-            var a = try? String(contentsOf: filePath)
-            var b = try? AttributedString(markdown: Data(contentsOf: filePath), options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace))
+            let a = try? String(contentsOf: filePath)
+            let b = try? AttributedString(markdown: Data(contentsOf: filePath), options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace))
             licenses = a ?? ""
             licensesAttr = b ?? ""
         }

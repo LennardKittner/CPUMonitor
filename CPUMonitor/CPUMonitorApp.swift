@@ -31,7 +31,7 @@ struct CPUMonitorApp: App {
         }) {
             Image(String(Int(systemHandler.currentCpuUsage) + Int(systemHandler.currentCpuUsage) % 2))
             if configHandler.conf.showUtilization {
-                Text("\(String(format: "%.2f", systemHandler.currentCpuUsage)) %")
+                Text(String(format: "%05.2f %%", systemHandler.currentCpuUsage))
             }
             //CPUUsage(usage: $_systemHandler.currentCpuUsage)
         }
